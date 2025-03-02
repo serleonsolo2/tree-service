@@ -4,8 +4,8 @@ server:
 logging:
   level:
     root: INFO
-    org.jooq.tools.LoggerListener: DEBUG
-    org.jooq.impl: DEBUG
+    org.jooq.tools.LoggerListener: INFO
+    org.jooq.impl: INFO
 
 spring:
   application:
