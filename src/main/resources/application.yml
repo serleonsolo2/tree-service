@@ -1,0 +1,35 @@
+server:
+  port: 8083
+
+logging:
+  level:
+    root: INFO
+    org.jooq.tools.LoggerListener: DEBUG
+    org.jooq.impl: DEBUG
+
+spring:
+  application:
+    name: tree-service
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/edges_db
+    username: user
+    password: password
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  jooq:
+    sql-dialect: postgres
+
+tree:
+  max-depth: 10
+
+springdoc:
+  api-docs:
+    enabled: true
+    path: /api/v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /api/swagger-ui.html
+    csrf.enabled: true

@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "66627c28-f908-458e-afb1-f729491db95d",
+		"name": "Tree",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35336070"
+	},
+	"item": [
+		{
+			"name": "Create Edge",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var node1 = parseInt(pm.collectionVariables.get(\"node1\"))\r",
+							"var node2 = parseInt(pm.collectionVariables.get(\"node2\"))\r",
+							"var depth = parseInt(pm.collectionVariables.get(\"depth\"))\r",
+							"var data = pm.response.json()\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Edge created = \" + data.fromId + \",\" + data.toId, function () {\r",
+							"    pm.expect(data.fromId).to.equal(node1);\r",
+							"    pm.expect(data.toId).to.equal(node2);\r",
+							"})\r",
+							"\r",
+							"pm.collectionVariables.set(\"node1\", data.fromId + 1)\r",
+							"pm.collectionVariables.set(\"node2\", data.toId + 1)\r",
+							"if (node1 < depth) {\r",
+							"    pm.execution.setNextRequest(\"Create Edge\")\r",
+							"} else {\r",
+							"    pm.execution.setNextRequest(pm.request.setNextRequest)\r",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/edge/{{node1}}/{{node2}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"edge",
+						"{{node1}}",
+						"{{node2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tree",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var depth = parseInt(pm.collectionVariables.get(\"depth\"))\r",
+							"var data = pm.response.json()\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"});\r",
+							"pm.test('Number of edges returned = ' + data.length, function () {\r",
+							"    pm.expect(data.length).to.equal(depth)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/tree/{{root-node1}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"tree",
+						"{{root-node1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Tree Nested",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var rootNode = parseInt(pm.collectionVariables.get(\"root-node1\"))\r",
+							"var data = pm.response.json()\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"});\r",
+							"pm.test('Root node = ' + data.nodeId, function () {\r",
+							"    pm.expect(data.nodeId).to.equal(rootNode)\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/tree/{{root-node1}}/nested?maxDepth=10",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"tree",
+						"{{root-node1}}",
+						"nested"
+					],
+					"query": [
+						{
+							"key": "maxDepth",
+							"value": "10"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Edge",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var depth = parseInt(pm.collectionVariables.get(\"depth\"))\r",
+							"var data = pm.response.json()\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"  pm.response.to.have.status(200)\r",
+							"});\r",
+							"pm.test(\"Edges deleted \" + data, function () {\r",
+							"  pm.expect(data).to.equal(depth)\r",
+							"});\r",
+							"pm.collectionVariables.set(\"node1\", 1)\r",
+							"pm.collectionVariables.set(\"node2\", 2)\r",
+							"pm.execution.setNextRequest(null)\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/v1/edge/{{root-node1}}/{{root-node2}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"v1",
+						"edge",
+						"{{root-node1}}",
+						"{{root-node2}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "node1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "node2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "root-node1",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "root-node2",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "depth",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

@@ -1,0 +1,5 @@
+db:
+  name: edge_db
+  url: jdbc:postgresql://localhost:5432/edge_db
+  username: "user"
+  password: "password"
