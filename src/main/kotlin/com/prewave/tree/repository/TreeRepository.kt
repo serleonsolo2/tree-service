@@ -5,8 +5,6 @@ import com.prewave.tree.jooq.tables.records.EdgeRecord
 import com.prewave.tree.jooq.tables.references.EDGE
 import com.prewave.tree.repository.RepositoryUtils.intField
 import com.prewave.tree.repository.RepositoryUtils.isSubtree
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import org.jooq.CommonTableExpression
 import org.jooq.DSLContext
 import org.jooq.impl.DSL.field
@@ -28,17 +26,16 @@ class TreeRepository(
     }
 
     // get tree using ltree path
-    suspend fun getTree(rootId: Int): List<EdgeRecord> =
-        withContext(Dispatchers.IO) {
-            val rootPath = edgeRepository.getParentPath(rootId)
-            dsl
-                .selectFrom(EDGE)
-                .where(
-                    EDGE.PATH.name
-                        .isSubtree(rootPath)
-                        .and(EDGE.PATH.ne(rootPath)),
-                ).fetch()
-        }
+    fun getTree(rootId: Int): List<EdgeRecord> {
+        val rootPath = edgeRepository.getParentPath(rootId)
+        return dsl
+            .selectFrom(EDGE)
+            .where(
+                EDGE.PATH.name
+                    .isSubtree(rootPath)
+                    .and(EDGE.PATH.ne(rootPath)),
+            ).fetch()
+    }
 
     // get tree using recursive cte with depth limitation
     fun getTreeByLevel(

@@ -25,10 +25,6 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.springframework.boot:spring-boot-starter-web")
 
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
-    implementation("io.projectreactor:reactor-core")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
     implementation("org.springframework.boot:spring-boot-starter-jooq")
     implementation(("org.jooq:jooq-postgres-extensions:$jooqVersion"))
 

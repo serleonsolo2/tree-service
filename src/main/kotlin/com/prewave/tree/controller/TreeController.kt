@@ -30,7 +30,7 @@ class TreeController(
             ApiResponse(responseCode = "409", description = "Invalid tree detected"),
         ],
     )
-    suspend fun getTree(
+    fun getTree(
         @PathVariable rootId: Int,
     ): ResponseEntity<List<EdgeDto>> =
         ResponseEntity

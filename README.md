@@ -29,8 +29,7 @@ As any depth limitations can be not acceptable by the external clients and typic
 can cause performance degradation, we use ltree technique https://www.postgresql.org/docs/current/ltree.html
 Ltrees by using special path field and GIST index can significantly optimize the query cost. 
 Ltrees approach adds overhead to calculate the path for the creation operation.
-(update operations can be more complicated, currently out of scope)
-Additionally we use kotlin coroutines and flat structure as we expect payload can be very large for real DTOs. 
+(update operations can be more complicated, currently out of scope) 
 
 #### UI
 We use normal recursive postgres CTE but limit the maximum depth.
@@ -42,6 +41,7 @@ When creating an edge we dont check consistency as it can be rather expensive op
 should validate consistency when getting the subtrees instead (currently out of scope)
 
 #### Other Potential Improvements
+* Use kotlin coroutines and R2DBC
 * GraphQL and filters - payload can be minimized by using additional filters
 * Paging for max children - potentially we can also implement paging for the maximum children if needed
 * Use graph databases to store data in native format instead of Postgres
@@ -55,6 +55,5 @@ should validate consistency when getting the subtrees instead (currently out of 
 * Postgres
 * Jooq (with code generation and ltree extension)
 * Flyway
-* Kotlin Coroutines
 * Swagger
 * Spring Boot Tests & Junit5

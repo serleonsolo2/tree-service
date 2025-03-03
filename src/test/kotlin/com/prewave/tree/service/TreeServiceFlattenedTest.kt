@@ -1,10 +1,9 @@
 package com.prewave.tree.service
 
 import com.prewave.tree.TreeServiceAbstractTest
-import kotlinx.coroutines.runBlocking
-import org.springframework.beans.factory.annotation.Autowired
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import org.springframework.beans.factory.annotation.Autowired
 
 class TreeServiceFlattenedTest : TreeServiceAbstractTest() {
     @Autowired
@@ -31,18 +30,15 @@ class TreeServiceFlattenedTest : TreeServiceAbstractTest() {
     @Test
     fun `get tree node 1 - flattened`() {
         createTree()
-        runBlocking {
-            val result = treeService.getTree(1)
-            assertEquals(FLAT_TREE_1, result)
-        }
+        val result = treeService.getTree(1)
+        assertEquals(FLAT_TREE_1, result)
     }
 
     @Test
     fun `get tree node 2 - flattened`() {
         createTree()
-        runBlocking {
-            val result = treeService.getTree(2)
-            assertEquals(FLAT_TREE_2, result)
-        }
+        val result = treeService.getTree(2)
+        assertEquals(FLAT_TREE_2, result)
     }
 }
+

@@ -17,7 +17,7 @@ class TreeService(
         private val logger = LoggerFactory.getLogger(TreeService::class.java)
     }
 
-    suspend fun getTree(rootId: Int): List<EdgeDto> {
+    fun getTree(rootId: Int): List<EdgeDto> {
         logger.info("Get flat tree for the root: $rootId")
         return treeRepository
             .getTree(rootId)
